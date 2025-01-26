@@ -9,7 +9,11 @@ export default function Home() {
         <UserButton />
       </SignedIn>
       <SignedOut>
-        <SignInButton />
+        <SignInButton>
+          <Button>
+            Sign In
+          </Button>
+        </SignInButton>
       </SignedOut>
     </div>
   );
