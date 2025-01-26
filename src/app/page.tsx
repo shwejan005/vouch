@@ -1,11 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import React from "react";
 
 export default function Home() {
   return (
     <div>
-      <h1>Home Page</h1>
-      <Button>Sign In</Button>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
     </div>
   );
 }
