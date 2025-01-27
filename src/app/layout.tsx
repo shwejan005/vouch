@@ -12,6 +12,13 @@ const leagueSpartan = localFont({
   display: "swap", // Ensures faster font rendering
 });
 
+export const silkscreenBold = localFont({
+  src: "/fonts/Silkscreen-Bold.ttf",
+  variable: "--font-silkscreen", // Custom CSS variable for font
+  weight: "700", // Specify the weight for bold
+  display: "swap", // Ensures faster font rendering
+});
+
 export const metadata: Metadata = {
   title: "Vouch",
   description: "A Cool Interview Platform",
