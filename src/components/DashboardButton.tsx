@@ -2,10 +2,10 @@
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
+import { useUserRole } from '@/hooks/useUserRole'
 
 function DashboardButton() {
-    const isCandidate = false
-    const isInterviewer = true
+    const { isCandidate, isInterviewer, isLoading } = useUserRole()
   
     if (isCandidate) return null
 
