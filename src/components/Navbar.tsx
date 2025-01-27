@@ -3,8 +3,9 @@ import { ModeToggle } from './ModeToggle'
 import Link from 'next/link';
 import { silkscreenBold } from '@/app/layout';
 import { Cctv } from 'lucide-react';
-import { SignedIn, UserButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 import DashboardButton from './DashboardButton';
+import { Button } from './ui/button';
 
 
 function Navbar() {

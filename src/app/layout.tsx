@@ -4,6 +4,7 @@ import "./globals.css";
 import ConvexClerkProvider from "@/components/providers/ConvexClerkkProvider";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 
 const leagueSpartan = localFont({
   src: "/fonts/LeagueSpartan-VariableFont_wght.ttf",
@@ -41,12 +42,18 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="min-h-screen">
-              <Navbar />
-              <main>
-                {children}
-              </main>
-            </div>
+            <SignedIn>
+              <div className="min-h-screen">
+                <Navbar />
+                <main>
+                  {children}
+                </main>
+              </div>
+            </SignedIn>
+
+            <SignedOut>
+              <RedirectToSignIn />
+            </SignedOut>
           </ThemeProvider>
         </body>
       </html>
