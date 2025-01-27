@@ -11,8 +11,8 @@ function Navbar() {
   return (
     <div className='border-b'>
         <div className='flex min-w-screen h-10 items-center px-4 container mx-auto'>
-            <Link href='/' className='flex items-center gap-3 text-2xl text-red-600 mr-6 hover:opacity-90 transition-opacity'>
-                <h1 className={`${silkscreenBold.className} bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent`}>Vouch</h1>
+            <Link href='/' className='flex items-center gap-3 text-2xl text-red-700 mr-6 hover:opacity-90 transition-opacity'>
+                <h1 className={`${silkscreenBold.className} bg-gradient-to-r from-red-700 to-red-500 bg-clip-text text-transparent`}>Vouch</h1>
             </Link>
         <SignedIn>
           <div className='flex items-center space-x-5 ml-auto'>

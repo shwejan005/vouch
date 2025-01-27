@@ -1,10 +1,21 @@
 "use client"
+import Link from 'next/link'
 import React from 'react'
+import { Button } from './ui/button'
 
 function DashboardButton() {
-  return (
-    <div>DashboardButton</div>
-  )
+    const isCandidate = false
+    const isInterviewer = true
+  
+    if (isCandidate) return null
+
+    return (
+        <Link href='/dashboard'>
+            <Button className='gap-2 font-medium' size={'sm'}>
+                DashBoard
+            </Button>
+        </Link>
+    )
 }
 
 export default DashboardButton
