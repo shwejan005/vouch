@@ -5,15 +5,11 @@ import ConvexClerkProvider from "@/components/providers/ConvexClerkkProvider";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const leagueSpartan = localFont({
+  src: "/fonts/LeagueSpartan-VariableFont_wght.ttf",
+  variable: "--font-league-spartan", // Custom CSS variable for font
+  weight: "100 900", // Weight range supported by the font
+  display: "swap", // Ensures faster font rendering
 });
 
 export const metadata: Metadata = {
@@ -30,7 +26,7 @@ export default function RootLayout({
     <ConvexClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${leagueSpartan.className} antialiased`}
         >
           <ThemeProvider
             attribute="class"
