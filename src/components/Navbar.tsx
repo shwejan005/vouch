@@ -3,6 +3,8 @@ import { ModeToggle } from './ModeToggle'
 import Link from 'next/link';
 import { silkscreenBold } from '@/app/layout';
 import { Cctv } from 'lucide-react';
+import { SignedIn, UserButton } from '@clerk/nextjs';
+import DashboardButton from './DashboardButton';
 
 
 function Navbar() {
@@ -12,7 +14,14 @@ function Navbar() {
             <Link href='/' className='flex items-center gap-3 text-2xl text-red-600 mr-6 hover:opacity-90 transition-opacity'>
                 <h1 className={`${silkscreenBold.className} bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent`}>Vouch</h1>
             </Link>
-        </div>
+        <SignedIn>
+          <div className='flex items-center space-x-5 ml-auto'>
+            <DashboardButton />
+            <ModeToggle />
+            <UserButton />
+          </div>
+        </SignedIn>
+      </div>
     </div>
   )
 }
