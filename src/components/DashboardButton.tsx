@@ -12,7 +12,7 @@ function DashboardButton() {
     return (
         <Link href='/dashboard'>
             <Button className='gap-2 font-medium' size={'sm'}>
-                DashBoard
+                Dashboard
             </Button>
         </Link>
     )
