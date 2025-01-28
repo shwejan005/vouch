@@ -1,0 +1,16 @@
+1 - create-next-app@latest
+2 - setup clerk 
+    .env.local - 2 keys
+3 - setup convex (npx convex dev)
+4 - establish web hook between clerk and convex 
+    jwt template
+    endpoint
+    refer to tut or codebase
+5 - define the basic schemas
+6 - define the basic functions(convex)
+7 - shadcn installation 
+    theme setup
+    layout changes
+    components building
+8 - establish hooks (the first one used in this project was to fetch the role of the user i.e.useUserRole())
+ * wrapping folder names with () doesn't allow it to be a route in next js (called route groups)
