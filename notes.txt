@@ -4,7 +4,7 @@
 3 - setup convex (npx convex dev)
 4 - establish web hook between clerk and convex 
     jwt template
-    endpoint
+    endpoint https://elegant-puffin-484.convex.cloud -> https://elegant-puffin-484.convex.site/clerk-webhook
     refer to tut or codebase
 5 - define the basic schemas
 6 - define the basic functions(convex)
