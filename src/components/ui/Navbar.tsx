@@ -5,7 +5,7 @@ import { silkscreenBold } from '@/app/layout';
 import { Cctv } from 'lucide-react';
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 import DashboardButton from './DashboardButton';
-import { Button } from './ui/button';
+import { Button } from './button';
 
 
 function Navbar() {

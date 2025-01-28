@@ -1,13 +1,13 @@
 "use client"
 import Link from 'next/link'
 import React from 'react'
-import { Button } from './ui/button'
+import { Button } from './button'
 import { useUserRole } from '@/hooks/useUserRole'
 
 function DashboardButton() {
     const { isCandidate, isInterviewer, isLoading } = useUserRole()
   
-    if (isCandidate) return null
+    if ( isCandidate || isLoading )  return null
 
     return (
         <Link href='/dashboard'>

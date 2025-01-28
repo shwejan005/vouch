@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import ConvexClerkProvider from "@/components/providers/ConvexClerkkProvider";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/ui/Navbar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 
