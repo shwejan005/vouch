@@ -5,6 +5,7 @@ import ConvexClerkProvider from "@/components/providers/ConvexClerkkProvider";
 import Navbar from "@/components/ui/Navbar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
+import { Toaster } from "react-hot-toast";
 
 const leagueSpartan = localFont({
   src: "/fonts/LeagueSpartan-VariableFont_wght.ttf",
@@ -55,6 +56,7 @@ export default function RootLayout({
               <RedirectToSignIn />
             </SignedOut>
           </ThemeProvider>
+          <Toaster />
         </body>
       </html>
     </ConvexClerkProvider>

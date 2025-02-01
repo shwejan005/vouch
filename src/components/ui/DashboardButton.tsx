@@ -4,7 +4,7 @@ import React from 'react'
 import { Button } from './button'
 import { useUserRole } from '@/hooks/useUserRole'
 
-function DashboardButton() {
+export default function DashboardButton() {
     const { isCandidate, isInterviewer, isLoading } = useUserRole()
   
     if ( isCandidate || isLoading )  return null
@@ -17,5 +17,3 @@ function DashboardButton() {
         </Link>
     )
 }
-
-export default DashboardButton

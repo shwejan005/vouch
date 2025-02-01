@@ -9,6 +9,7 @@ import { api } from "../../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import MeetingModal from "@/components/MeetingModal";
 import LoaderUI from "@/components/ui/LoaderUI";
+
 export default function Home() {
   const router = useRouter();
 
@@ -32,16 +33,16 @@ export default function Home() {
     }
   };
 
-  if (isLoading) return <LoaderUI />
+  if (isLoading) return <LoaderUI />;
 
   return (
     <div className="container max-w-7xl mx-auto p-6">
       {/* WELCOME SECTION */}
-      <div className="rounded-lg bg-card p-6 border shadow-sm mb-10">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-red-700 to-red-400 bg-clip-text text-transparent">
+      <div className="rounded-lg bg-red-700 text-white p-6 border shadow-sm mb-10">
+        <h1 className="text-4xl font-bold">
           Welcome back!
         </h1>
-        <p className="text-muted-foreground mt-2">
+        <p className="mt-2">
           {isInterviewer
             ? "Manage your interviews and review candidates effectively"
             : "Access your upcoming interviews and preparations"}
@@ -69,7 +70,7 @@ export default function Home() {
         </>
       ) : (
         <>
-          
+        <p>hi</p>
         </>
       )}
     </div>
