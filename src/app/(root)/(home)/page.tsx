@@ -3,9 +3,10 @@ import ActionCard from "@/components/ui/ActionCard";
 import { QUICK_ACTIONS } from "@/constants";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useQuery } from "convex/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api } from "../../../../convex/_generated/api";
-import { useRouter } from "next/navigation";
+import MeetingModal from "@/components/MeetingModal";
 
 export default function Home() {
   
@@ -15,7 +16,7 @@ export default function Home() {
   const [showModal, setShowModal] = useState(false)
   const [modalType, setModalType] = useState<"start" | "join">()
 
-  const interviews = useQuery(api.interviews.getAllInterviews)
+  const interviews = useQuery(api.interviews.getMyInterviews)
 
 
   const handleQuickAction = ( title: string) => {
@@ -59,6 +60,13 @@ export default function Home() {
                 />
               ))}
             </div>
+            <MeetingModal
+              isOpen={showModal}
+              onClose={() => setShowModal(false)} // ✅ This fixes the issue
+              title={modalType === "join" ? "Join meeting" : "Start meeting"}
+              isJoinMeeting={modalType === "join"} 
+            />
+
           </div>
         ) 
         : (
