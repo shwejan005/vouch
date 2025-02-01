@@ -1,5 +1,5 @@
 import { QuickActionType } from "@/constants";
-import { Card } from "./card"; 
+import { Card } from "./ui/card"; 
 import { useTheme } from "next-themes";
 
 function ActionCard({ action, onClick }: { action: QuickActionType; onClick: () => void }) {
