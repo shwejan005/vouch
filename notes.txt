@@ -8,6 +8,10 @@
     refer to tut or codebase
 5 - define the basic schemas
 6 - define the basic functions(convex)
+    query - convex folder
+    useQuery - react functions
+    mutation - convex folder
+    api.(...) - react functions
 7 - shadcn installation 
     theme setup
     layout changes
