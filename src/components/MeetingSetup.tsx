@@ -1,12 +1,13 @@
-"use client"
+"use client";
 
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 import { DeviceSettings, useCall, VideoPreview } from "@stream-io/video-react-sdk";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CameraIcon, MicIcon, SettingsIcon } from 'lucide-react';
+import { CameraIcon, MicIcon, SettingsIcon } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import React from 'react'; // Import React
+import type React from "react"; // Import React
 
 function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
   const [isCameraDisabled, setIsCameraDisabled] = useState(true);
@@ -35,7 +36,7 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-background to-background/90">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -48,11 +49,13 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h1 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">Camera Preview</h1>
+            <h1 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
+              Camera Preview
+            </h1>
             <p className="text-sm text-muted-foreground mb-4">Make sure you look your best!</p>
 
             {/* VIDEO PREVIEW */}
-            <motion.div 
+            <motion.div
               className="aspect-video rounded-xl overflow-hidden bg-muted/50 border relative"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -86,9 +89,11 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
             transition={{ delay: 0.2, duration: 0.5 }}
           >
             <div className="h-full flex flex-col">
-              {/* MEETING DETAILS  */}
+              {/* MEETING DETAILS */}
               <div>
-                <h2 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">Meeting Details</h2>
+                <h2 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
+                  Meeting Details
+                </h2>
                 <p className="text-sm text-muted-foreground break-all bg-muted p-2 rounded-md">{call.id}</p>
               </div>
 
@@ -112,26 +117,29 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                     onToggle={(checked) => setIsMicDisabled(!checked)}
                   />
 
-                  {/* DEVICE SETTINGS */}
+                  {/* DEVICE SETTINGS - Now has a Settings Icon at the End */}
                   <ControlItem
                     icon={<SettingsIcon className="h-5 w-5" />}
                     title="Settings"
                     subtitle="Configure devices"
-                    customControl={<DeviceSettings />}
+                    customControl={
+                      <div className="flex items-center gap-2">
+                        <DeviceSettings />
+                        <SettingsIcon className="h-5 w-5 text-muted-foreground" />
+                      </div>
+                    }
                   />
                 </div>
 
                 {/* JOIN BTN */}
                 <div className="space-y-3 mt-8">
-                  <Button 
+                  <Button
                     className="w-full relative overflow-hidden group"
-                    size="lg" 
+                    size="lg"
                     onClick={handleJoin}
                     disabled={isJoining}
                   >
-                    <span className="relative z-10">
-                      {isJoining ? "Joining..." : "Join Meeting"}
-                    </span>
+                    <span className="relative z-10">{isJoining ? "Joining..." : "Join Meeting"}</span>
                     <motion.div
                       className="absolute inset-0 bg-primary-foreground"
                       initial={{ x: "-100%" }}
@@ -139,7 +147,7 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                       transition={{ duration: 0.5 }}
                     />
                   </Button>
-                  <motion.p 
+                  <motion.p
                     className="text-xs text-center text-muted-foreground"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -157,7 +165,14 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
   );
 }
 
-function ControlItem({ icon, title, subtitle, isEnabled, onToggle, customControl }: {
+function ControlItem({
+  icon,
+  title,
+  subtitle,
+  isEnabled,
+  onToggle,
+  customControl,
+}: {
   icon: React.ReactNode;
   title: string;
   subtitle: string;
@@ -166,13 +181,13 @@ function ControlItem({ icon, title, subtitle, isEnabled, onToggle, customControl
   customControl?: React.ReactNode;
 }) {
   return (
-    <motion.div 
+    <motion.div
       className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted/80 transition-colors"
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-center gap-3">
-        <motion.div 
+        <motion.div
           className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center"
           whileHover={{ rotate: 15 }}
           whileTap={{ scale: 0.9 }}
@@ -185,11 +200,7 @@ function ControlItem({ icon, title, subtitle, isEnabled, onToggle, customControl
         </div>
       </div>
       {customControl || (
-        <Switch
-          checked={isEnabled}
-          onCheckedChange={onToggle}
-          className="data-[state=checked]:bg-primary"
-        />
+        <Switch checked={isEnabled} onCheckedChange={onToggle} className="data-[state=checked]:bg-primary" />
       )}
     </motion.div>
   );
