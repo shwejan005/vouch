@@ -125,7 +125,7 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                     customControl={
                       <div className="flex items-center gap-2">
                         <DeviceSettings />
-                        <SettingsIcon className="h-5 w-5 text-muted-foreground" />
+                        <SettingsIcon className="h-5 mr-12 w-5 text-muted-foreground" />
                       </div>
                     }
                   />
