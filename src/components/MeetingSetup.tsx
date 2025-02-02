@@ -131,14 +131,14 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                   transition={{ delay: 0.5 }}
                 >
                   <Button
-                    className="w-full relative overflow-hidden group bg-red-500 hover:bg-red-600 text-white"
+                    className="w-full relative overflow-hidden group bg-red-600 hover:bg-red-700 transition-all ease-linear duration-300 text-white"
                     size="lg"
                     onClick={handleJoin}
                     disabled={isJoining}
                   >
                     <span className="relative z-10">{isJoining ? "Joining..." : "Join Meeting"}</span>
                     <motion.div
-                      className="absolute inset-0 bg-primary-foreground"
+                      className="absolute inset-0"
                       initial={{ x: "-100%" }}
                       animate={isJoining ? { x: "0%" } : { x: "-100%" }}
                       transition={{ duration: 0.5 }}
