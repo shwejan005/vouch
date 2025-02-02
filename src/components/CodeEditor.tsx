@@ -62,7 +62,7 @@ function CodeEditor() {
                       <SelectValue>
                         <div className="flex items-center gap-2">
                           <img
-                            src={`/${language}.png`}
+                            src={`/images/${language}.png`}
                             alt={language}
                             className="w-5 h-5 object-contain"
                           />
@@ -76,7 +76,7 @@ function CodeEditor() {
                         <SelectItem key={lang.id} value={lang.id}>
                           <div className="flex items-center gap-2">
                             <img
-                              src={`/${lang.id}.png`}
+                              src={`/images/${lang.id}.png`}
                               alt={lang.name}
                               className="w-5 h-5 object-contain"
                             />
