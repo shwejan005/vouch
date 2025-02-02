@@ -1,38 +1,37 @@
-"use client";
+"use client"
 
-import "@stream-io/video-react-sdk/dist/css/styles.css";
-import { DeviceSettings, useCall, VideoPreview } from "@stream-io/video-react-sdk";
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { CameraIcon, MicIcon, SettingsIcon } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
-import type React from "react"; // Import React
+import { DeviceSettings, useCall, VideoPreview } from "@stream-io/video-react-sdk"
+import { useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { CameraIcon, MicIcon, SettingsIcon } from "lucide-react"
+import { Card } from "@/components/ui/card"
+import { Switch } from "@/components/ui/switch"
+import { Button } from "@/components/ui/button"
 
 function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
-  const [isCameraDisabled, setIsCameraDisabled] = useState(true);
-  const [isMicDisabled, setIsMicDisabled] = useState(false);
-  const [isJoining, setIsJoining] = useState(false);
+  const [isCameraDisabled, setIsCameraDisabled] = useState(true)
+  const [isMicDisabled, setIsMicDisabled] = useState(false)
+  const [isJoining, setIsJoining] = useState(false)
 
-  const call = useCall();
+  const call = useCall()
 
-  if (!call) return null;
-
-  useEffect(() => {
-    if (isCameraDisabled) call.camera.disable();
-    else call.camera.enable();
-  }, [isCameraDisabled, call.camera]);
+  if (!call) return null
 
   useEffect(() => {
-    if (isMicDisabled) call.microphone.disable();
-    else call.microphone.enable();
-  }, [isMicDisabled, call.microphone]);
+    if (isCameraDisabled) call.camera.disable()
+    else call.camera.enable()
+  }, [isCameraDisabled, call?.camera])
+
+  useEffect(() => {
+    if (isMicDisabled) call.microphone.disable()
+    else call.microphone.enable()
+  }, [isMicDisabled, call?.microphone])
 
   const handleJoin = async () => {
-    setIsJoining(true);
-    await call.join();
-    onSetupComplete();
-  };
+    setIsJoining(true)
+    await call.join()
+    onSetupComplete()
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-background to-background/90">
@@ -42,21 +41,19 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
         transition={{ duration: 0.5 }}
         className="w-full max-w-[1200px] mx-auto"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* VIDEO PREVIEW CONTAINER */}
-          <motion.div
-            className="md:col-span-1 p-6 rounded-2xl bg-card shadow-lg overflow-hidden"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <h1 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
-              Camera Preview
-            </h1>
-            <p className="text-sm text-muted-foreground mb-4">Make sure you look your best!</p>
+          <Card className="md:col-span-1 p-6 flex flex-col overflow-hidden">
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+              <h1 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
+                Camera Preview
+              </h1>
+              <p className="text-sm text-muted-foreground mb-4">Make sure you look your best!</p>
+            </motion.div>
 
             {/* VIDEO PREVIEW */}
             <motion.div
-              className="aspect-video rounded-xl overflow-hidden bg-muted/50 border relative"
+              className="mt-4 flex-1 aspect-video rounded-xl overflow-hidden bg-muted/50 border relative"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -79,29 +76,29 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                 </div>
               )}
             </motion.div>
-          </motion.div>
+          </Card>
 
           {/* CARD CONTROLS */}
-          <motion.div
-            className="md:col-span-1 p-6 rounded-2xl bg-card shadow-lg"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-          >
+          <Card className="md:col-span-1 p-6">
             <div className="h-full flex flex-col">
-              {/* MEETING DETAILS */}
-              <div>
+              {/* MEETING DETAILS  */}
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
                 <h2 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
                   Meeting Details
                 </h2>
                 <p className="text-sm text-muted-foreground break-all bg-muted p-2 rounded-md">{call.id}</p>
-              </div>
+              </motion.div>
 
               <div className="flex-1 flex flex-col justify-between mt-8">
-                <div className="space-y-6">
+                <motion.div
+                  className="space-y-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3, staggerChildren: 0.1 }}
+                >
                   {/* CAM CONTROL */}
                   <ControlItem
-                    icon={<CameraIcon className="h-5 w-5" />}
+                    icon={<CameraIcon className="h-5 w-5 text-primary" />}
                     title="Camera"
                     subtitle={isCameraDisabled ? "Off" : "On"}
                     isEnabled={!isCameraDisabled}
@@ -110,30 +107,31 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
 
                   {/* MIC CONTROL */}
                   <ControlItem
-                    icon={<MicIcon className="h-5 w-5" />}
+                    icon={<MicIcon className="h-5 w-5 text-primary" />}
                     title="Microphone"
                     subtitle={isMicDisabled ? "Off" : "On"}
                     isEnabled={!isMicDisabled}
                     onToggle={(checked) => setIsMicDisabled(!checked)}
                   />
 
-                  {/* DEVICE SETTINGS - Now has a Settings Icon at the End */}
+                  {/* DEVICE SETTINGS */}
                   <ControlItem
-                    icon={<SettingsIcon className="h-5 w-5" />}
+                    icon={<SettingsIcon className="h-5 w-5 text-primary" />}
                     title="Settings"
                     subtitle="Configure devices"
-                    customControl={
-                      <div className="flex items-center gap-2">
-                        <DeviceSettings />
-                      </div>
-                    }
+                    customControl={<DeviceSettings />}
                   />
-                </div>
+                </motion.div>
 
                 {/* JOIN BTN */}
-                <div className="space-y-3 mt-8">
+                <motion.div
+                  className="space-y-3 mt-8"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
                   <Button
-                    className="w-full relative overflow-hidden group"
+                    className="w-full relative overflow-hidden group bg-red-500 hover:bg-red-600 text-white"
                     size="lg"
                     onClick={handleJoin}
                     disabled={isJoining}
@@ -146,22 +144,17 @@ function MeetingSetup({ onSetupComplete }: { onSetupComplete: () => void }) {
                       transition={{ duration: 0.5 }}
                     />
                   </Button>
-                  <motion.p
-                    className="text-xs text-center text-muted-foreground"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    Don't worry, our team is super friendly! We want you to succeed. 🎉
-                  </motion.p>
-                </div>
+                  <p className="text-xs text-center text-muted-foreground">
+                    Do not worry, our team is super friendly! We want you to succeed. 🎉
+                  </p>
+                </motion.div>
               </div>
             </div>
-          </motion.div>
+          </Card>
         </div>
       </motion.div>
     </div>
-  );
+  )
 }
 
 function ControlItem({
@@ -172,12 +165,12 @@ function ControlItem({
   onToggle,
   customControl,
 }: {
-  icon: React.ReactNode;
-  title: string;
-  subtitle: string;
-  isEnabled?: boolean;
-  onToggle?: (checked: boolean) => void;
-  customControl?: React.ReactNode;
+  icon: React.ReactNode
+  title: string
+  subtitle: string
+  isEnabled?: boolean
+  onToggle?: (checked: boolean) => void
+  customControl?: React.ReactNode
 }) {
   return (
     <motion.div
@@ -202,7 +195,8 @@ function ControlItem({
         <Switch checked={isEnabled} onCheckedChange={onToggle} className="data-[state=checked]:bg-primary" />
       )}
     </motion.div>
-  );
+  )
 }
 
-export default MeetingSetup;
+export default MeetingSetup
+

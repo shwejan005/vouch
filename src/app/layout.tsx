@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "./globals.css";
 import ConvexClerkProvider from "@/components/providers/ConvexClerkkProvider";
-import Navbar from "@/components/ui/Navbar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import Navbar from "@/components/ui/Navbar";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { Toaster } from "react-hot-toast";
 
 const leagueSpartan = localFont({
