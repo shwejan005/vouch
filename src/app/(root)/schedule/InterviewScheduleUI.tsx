@@ -25,7 +25,7 @@ import UserInfo from "@/components/UserInfo";
 import { Loader2Icon, XIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { TIME_SLOTS } from "@/constants";
-import MeetingCard from "@/components/MeetingCard";
+import MeetingCard from "@/components/MeetingCard"; 
 
 function InterviewScheduleUI() {
   const client = useStreamVideoClient();
@@ -34,7 +34,7 @@ function InterviewScheduleUI() {
   const [isCreating, setIsCreating] = useState(false);
 
   const interviews = useQuery(api.interviews.getAllInterviews) ?? [];
-  const users = useQuery(api.users.getUsers) ?? [];
+  const users = useQuery(api.users.getUser) ?? [];
   const createInterview = useMutation(api.interviews.createInterview);
 
   const candidates = users?.filter((u) => u.role === "candidate");
