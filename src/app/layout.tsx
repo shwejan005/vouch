@@ -1,30 +1,22 @@
-import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "./globals.css";
 import ConvexClerkProvider from "@/components/providers/ConvexClerkkProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import Navbar from "@/components/ui/Navbar";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { League_Spartan } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 
-const leagueSpartan = localFont({
-  src: "/fonts/LeagueSpartan-VariableFont_wght.ttf",
-  variable: "--font-league-spartan", // Custom CSS variable for font
-  weight: "100 900", // Weight range supported by the font
-  display: "swap", // Ensures faster font rendering
+const leagueSpartan = League_Spartan({
+  subsets: ["latin"],
+  variable: "--font-league-spartan",
+  display: "swap",
 });
 
-export const silkscreenBold = localFont({
-  src: "/fonts/Silkscreen-Bold.ttf",
-  variable: "--font-silkscreen", // Custom CSS variable for font
-  weight: "700", // Specify the weight for bold
-  display: "swap", // Ensures faster font rendering
-});
 
 export const metadata: Metadata = {
-  title: "Vouch",
-  description: "A Cool Interview Platform",
+  title: "FinEase",
+  description: "A Cool Financial Education Platform",
 };
 
 export default function RootLayout({
