@@ -1,14 +1,26 @@
+'use client'
 import { QuickActionType } from "@/constants";
 import { Card } from "./ui/card"; 
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 function ActionCard({ action, onClick }: { action: QuickActionType; onClick: () => void }) {
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Determine the actual theme (fallback to system if "system" is selected)
+  const currentTheme = theme === "system" ? systemTheme : theme;
+
+  if (!mounted) return null; // Prevent hydration mismatch
 
   // Dynamic color settings
-  const textColor = theme === "dark" ? "text-white" : "text-black";
-  const iconTextColor = theme === "dark" ? "text-white" : "text-black";
-  const iconBg = theme === "dark" ? "bg-white/10" : "bg-black/10";
+  const textColor = currentTheme === "dark" ? "text-white" : "text-black";
+  const iconTextColor = currentTheme === "dark" ? "text-white" : "text-black";
+  const iconBg = currentTheme === "dark" ? "bg-white/10" : "bg-black/10";
 
   return (
     <Card
