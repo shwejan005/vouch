@@ -1,10 +1,11 @@
 import "./globals.css";
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 import ConvexClerkProvider from "@/components/providers/ConvexClerkkProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import Navbar from "@/components/ui/Navbar";
 import { RedirectToSignIn, SignedIn, SignedOut } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { League_Spartan } from "next/font/google";
+import { League_Spartan, Silkscreen } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 
 const leagueSpartan = League_Spartan({
@@ -13,10 +14,15 @@ const leagueSpartan = League_Spartan({
   display: "swap",
 });
 
+export const silkScreen = Silkscreen({
+  subsets: ["latin"],
+  weight: "400"
+})
+
 
 export const metadata: Metadata = {
-  title: "FinEase",
-  description: "A Cool Financial Education Platform",
+  title: "Vouch",
+  description: "An Interview Platform built for ease of use and simplicity",
 };
 
 export default function RootLayout({

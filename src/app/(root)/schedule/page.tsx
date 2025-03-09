@@ -1,4 +1,5 @@
-import InterviewScheduleUI from '@/components/InterviewScheduleUI'
+'use client'
+import InterviewScheduleUI from './InterviewScheduleUI' 
 import LoaderUI from '@/components/ui/LoaderUI'
 import { useUserRole } from '@/hooks/useUserRole'
 import { useRouter } from 'next/navigation'
