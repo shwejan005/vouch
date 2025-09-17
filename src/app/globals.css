@@ -70,3 +70,14 @@
   }
 }
 
+
+/* Remove default time input icon (Chrome, Safari, Edge) */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+/* Firefox */
+input[type="time"]::-moz-focus-inner {
+  border: 0;
+}
