@@ -1,9 +1,7 @@
-"use client";
-
 import { useUser } from "@clerk/nextjs";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { useMutation, useQuery } from "convex/react";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { api } from "../../../../convex/_generated/api";
 import toast from "react-hot-toast";
 import {
@@ -26,7 +24,7 @@ import {
 import UserInfo from "@/components/UserInfo";
 import { ClockIcon, Loader2Icon, XIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import MeetingCard from "@/components/MeetingCard";
+import MeetingCard from "@/components/MeetingCard"; 
 
 function InterviewScheduleUI() {
   const client = useStreamVideoClient();
@@ -50,48 +48,6 @@ function InterviewScheduleUI() {
     interviewerIds: user?.id ? [user.id] : [],
   });
 
-  // Keep a ref to the active Call instance we created (if any).
-  // We *only* use this ref to send visibility events via the actual Call object.
-  const callRef = useRef<any | null>(null);
-
-  // -------------------------------
-  // Visibility tracking (corrected)
-  // -------------------------------
-  useEffect(() => {
-    const handleVisibility = () => {
-      const isVisible = document.visibilityState === "visible";
-      const eventPayload = {
-        type: isVisible ? "tab_active" : "tab_inactive",
-        userId: user?.id ?? null,
-        isVisible,
-        timestamp: Date.now(),
-      };
-
-      const call = callRef.current;
-      // Only send if we have a real Call object and it exposes sendCustomEvent
-      if (call && typeof call.sendCustomEvent === "function") {
-        try {
-          // Keep the shape similar to your other events — adjust if your call.sendCustomEvent expects a different shape
-          call.sendCustomEvent(eventPayload);
-        } catch (err) {
-          // Fail silently but log for debugging
-          // (Don't surface UI alerts as requested)
-          // eslint-disable-next-line no-console
-          console.error("Failed to send visibility event:", err);
-        }
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibility);
-
-    // optional: emit initial state on mount (so remote parties know current state)
-    handleVisibility();
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibility);
-    };
-  }, [user]);
-
   const scheduleMeeting = async () => {
     if (!client || !user) return;
     if (!formData.candidateId || formData.interviewerIds.length === 0) {
@@ -105,13 +61,10 @@ function InterviewScheduleUI() {
       const { title, description, date, time, candidateId, interviewerIds } = formData;
       const [hours, minutes] = time.split(":");
       const meetingDate = new Date(date);
-      meetingDate.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0);
+      meetingDate.setHours(parseInt(hours), parseInt(minutes), 0);
 
       const id = crypto.randomUUID();
       const call = client.call("default", id);
-
-      // store call ref so visibility events can be sent via this Call object
-      callRef.current = call;
 
       await call.getOrCreate({
         data: {
@@ -290,22 +243,23 @@ function InterviewScheduleUI() {
                   />
                 </div>
 
-                {/* TIME */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Time</label>
-                  <div className="relative">
-                    <Input
-                      type="time"
-                      value={formData.time}
-                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                      className="appearance-none pr-10 text-primary rounded-md border"
-                    />
-                    <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-primary">
-                      <ClockIcon className="h-4 w-4" />
-                    </span>
-                  </div>
+              {/* TIME */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Time</label>
+                <div className="relative">
+                  <Input
+                    type="time"
+                    value={formData.time}
+                    onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                    className="appearance-none pr-10 text-primary rounded-md border"
+                  />
+                  <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-primary">
+                    <ClockIcon className="h-4 w-4" />
+                  </span>
                 </div>
               </div>
+
+            </div>
 
               {/* ACTION BUTTONS */}
               <div className="flex justify-end gap-3 pt-4">
@@ -347,5 +301,4 @@ function InterviewScheduleUI() {
     </div>
   );
 }
-
 export default InterviewScheduleUI;
