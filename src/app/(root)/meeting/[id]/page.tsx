@@ -7,15 +7,12 @@ import useGetCallById from "@/hooks/useGetCallById";
 import { useUser } from "@clerk/nextjs";
 import { StreamCall, StreamTheme } from "@stream-io/video-react-sdk";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { useEffect, useRef, useState } from "react";
 
-function MeetingPage() {
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../../../../convex/_generated/api"; 
+
+export default function MeetingPage() {
   const { id } = useParams();
   const { isLoaded, user } = useUser();
   const { call, isCallLoading } = useGetCallById(id);
@@ -23,47 +20,62 @@ function MeetingPage() {
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [inactivePopup, setInactivePopup] = useState<string | null>(null);
 
-  // only candidate broadcasts tab inactive
+  const clerkId = user?.id ?? null;
+
+  // queries
+  const interviewDoc = useQuery(
+    api.interviews.getInterviewByStreamCallId,
+    call ? { streamCallId: call.id } : "skip"
+  );
+
+  const candidateDoc = useQuery(
+    api.users.getUserByClerkId,
+    interviewDoc ? { clerkId: interviewDoc.candidateId } : "skip"
+  );
+
+  const setActiveStatus = useMutation(api.users.setActiveStatus);
+  const prevCandidateActive = useRef<boolean | undefined>(undefined);
+
+  // update own active status
   useEffect(() => {
-    if (!call || !user) return;
-
-    const role = (user.publicMetadata?.role as string) || "unknown";
-
-    const handleVisibility = () => {
-      if (role === "candidate" && document.visibilityState !== "visible") {
-        call.sendCustomEvent({
-          type: "tab_inactive",
-          payload: {
-            user: user.fullName || user.username || "Candidate",
-            role: "candidate",
-          },
-        });
-      }
+    if (!clerkId) return;
+    const update = () => {
+      const isActive = document.visibilityState === "visible";
+      setActiveStatus({ clerkId, isActive }).catch(() => {});
     };
+    document.addEventListener("visibilitychange", update);
+    update();
+    return () => document.removeEventListener("visibilitychange", update);
+  }, [clerkId, setActiveStatus]);
 
-    document.addEventListener("visibilitychange", handleVisibility);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibility);
-    };
-  }, [call, user]);
-
-  // only interviewer sees popup when candidate goes inactive
+  // interviewer detects candidate tab switch
   useEffect(() => {
-    if (!call || !user) return;
+    if (!interviewDoc || !clerkId) {
+      prevCandidateActive.current = undefined;
+      return;
+    }
 
-    const role = (user.publicMetadata?.role as string) || "unknown";
+    const amInterviewer =
+      Array.isArray(interviewDoc.interviewerIds) &&
+      interviewDoc.interviewerIds.includes(clerkId);
 
-    const handleCustomEvent = (event: any) => {
-      if (role === "interviewer" && event.type === "tab_inactive" && event.payload.role === "candidate") {
-        setInactivePopup(`${event.payload.user} switched tabs or minimized window`);
-      }
-    };
+    if (!amInterviewer) {
+      prevCandidateActive.current = undefined;
+      return;
+    }
 
-    call.on("custom", handleCustomEvent);
-    return () => {
-      call.off("custom", handleCustomEvent);
-    };
-  }, [call, user]);
+    const prev = prevCandidateActive.current;
+    const curr = candidateDoc?.isActive;
+
+    prevCandidateActive.current = curr;
+
+    if (prev === undefined) return;
+    if (prev === true && curr === false) {
+      const who = candidateDoc?.name || candidateDoc?.email || "Candidate";
+      setInactivePopup(`${who} switched tabs or minimized window`);
+      setTimeout(() => setInactivePopup(null), 5000); // auto hide after 5s
+    }
+  }, [candidateDoc?.isActive, interviewDoc, clerkId]);
 
   if (!isLoaded || isCallLoading) return <LoaderUI />;
 
@@ -84,16 +96,14 @@ function MeetingPage() {
           <MeetingRoom />
         )}
 
-        <Dialog open={!!inactivePopup} onOpenChange={() => setInactivePopup(null)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>⚠️ Tab Inactive</DialogTitle>
-            </DialogHeader>
-            <p>{inactivePopup}</p>
-          </DialogContent>
-        </Dialog>
+        {/* Toast-style popup */}
+        {inactivePopup && (
+          <div className="fixed bottom-6 right-6 bg-white border border-gray-200 shadow-xl rounded-xl p-4 w-80 animate-in fade-in slide-in-from-bottom-5">
+            <p className="font-semibold text-red-600">⚠️ Tab Inactive</p>
+            <p className="text-sm text-gray-700 mt-1">{inactivePopup}</p>
+          </div>
+        )}
       </StreamTheme>
     </StreamCall>
   );
 }
-export default MeetingPage;
